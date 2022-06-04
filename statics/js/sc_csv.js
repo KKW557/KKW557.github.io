@@ -23,7 +23,7 @@ function decode() {
 
 function encode() {
     var file = document.getElementById('lzma').files[0];
-    var file_name = file.name.replace('.csv.lzma', '').replace('.lzma', '');
+    var file_name = file.name.replace('.lzma', '');
     var reader = new FileReader();
     reader.readAsArrayBuffer(file);
     reader.onload = function(e) {
