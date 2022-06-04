@@ -1,26 +1,41 @@
-var input = document.querySelector('input');
-var data = "";
-input.addEventListener('change', function() {
-  if(this.files.length){
-    let file = this.files[0];
-    let reader = new FileReader();
-    reader.onload = function(){
-      console.log(this.result);  // 文件数据流，变成相应格式数据了。（ 文本文件，就输出文本内的文本数据 ）
-    };
-    reader.readAsDataURL(file);
-  }
-}, false);
-for (var i=0; i<8; i++) {
-    data += this.result[i];
-}
-for (var i=0; i<4; i++) {
-    data += this.result[i];
-}
-for (var i=8; i<this.result.length; i++) {
-    data += this.result[i];
+function decode() {
+    var file = document.getElementById('csv').files[0];
+    var file_name = file.name.replace('.csv', '');
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = function(e) {
+        var arrayBuffer = new ArrayBuffer(this.result.byteLength + 4);
+        var view = new Uint8Array(arrayBuffer);
+        view.set(new Uint8Array(this.result.slice(0, 8)));
+        view.set(0, 8);  //LOL i just not write fori :P
+        view.set(0, 9);
+        view.set(0, 10);
+        view.set(0, 11);
+        view.set(new Uint8Array(this.result.slice(8, this.result.byteLength)), 12);
+        var blob = new Blob([view], {type: "application/octet-stream"});
+        var url  = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url; 
+        a.download = file_name + ".csv.lzma";
+        a.click();
+    }
 }
 
-var pack = decompress_files(data);
-
-download(pack,"decoded");
-
+function encode() {
+    var file = document.getElementById('lzma').files[0];
+    var file_name = file.name.replace('.lzma', '').replace('.csv.lzma', '');
+    var reader = new FileReader();
+    reader.readAsArrayBuffer(file);
+    reader.onload = function(e) {
+        var arrayBuffer = new ArrayBuffer(this.result.byteLength - 4);
+        var view = new Uint8Array(arrayBuffer);
+        view.set(new Uint8Array(this.result.slice(0, 8)));
+        view.set(new Uint8Array(this.result.slice(12, this.result.byteLength)), 8);
+        var blob = new Blob([view], {type: "application/octet-stream"});
+        var url  = URL.createObjectURL(blob);
+        var a = document.createElement('a');
+        a.href = url;
+        a.download = file_name + ".csv";
+        a.click();
+    }
+}

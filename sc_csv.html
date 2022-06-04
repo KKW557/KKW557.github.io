@@ -11,9 +11,26 @@
 	</head>
 
 	<body>
-        <input type="file" id="file"/><button id="decode">Decode<input/><input type="button" id="encode"/>
-        <script type='text/javascript' src='statics/js/downloader.js'></script>
-        <script type='text/javascript' src='statics/js/lzma.js'></script>
+		<div>
+			<input type="file" id="csv" accept="text/csv"/>
+			<a id="dr">0%</a>
+			<input type="button" value="Decode" onclick="decode()">
+		</div>
+		<div>
+			<input type="file" id="lzma" accept=“application/lzma”/>
+			<a id="cr">0%</a>
+			<input type="button" value="Encode" onclick="encode()">
+		</div>
+		<div>
+			<p>
+				本网站仅支持解码SC的CSV格式到LZMA或编码LZMA到SC的CSV格式（这句是Copilot写的
+			</p>
+			<p>
+				<a href="https://kl.lanzoub.com/iTOPL05wcd4h">lzma-java.jar</a>这是一个LZMA解压缩JAR，可以使用它来De/Encode .lzma文件，使用了<a href="https://github.com/jponge/lzma-java">LZMA library for Java</a>
+			</p>
+		</div>
+		<a href="https://github.com/KKW557">Github</a>
+		<a href="https://space.bilibili.com/386919430">Bilibili</a>
         <script type='text/javascript' src='statics/js/sc_csv.js'></script>
-	<body/>
-<html/>
+	</body>
+</html>
