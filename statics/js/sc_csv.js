@@ -35,7 +35,7 @@ function encode() {
         var url  = URL.createObjectURL(blob);
         var a = document.createElement('a');
         a.href = url;
-        a.download = file_name + ".csv";
+        a.download = file_name;
         a.click();
     }
 }

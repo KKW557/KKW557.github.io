@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+ 
+	<head>
+		<link rel="stylesheet" href="statics/css/bootstrap.min.css">
+		<link rel="stylesheet" href="statics/css/bootstrap-table.min.css">
+		<link rel="stylesheet" href="statics/css/bootstrap-editable.css">
+		<script src="statics/js/jquery.min.js"></script>
+		<script src="statics/js/bootstrap.min.js"></script>
+		<script src="statics/js/vue.min.js"></script>
+		<script src="statics/js/bootstrap-table.min.js"></script>
+		<script src="statics/js/bootstrap-editable.min.js"></script>
+		<meta charset="UTF-8">
+		<title></title>
+	</head>
+ 
+	<body>
+ 
+		<div class="container-fluid">
+			<div class="row" style="margin-top: 100px;">
+				<fieldset class="form-group col-xs-3 col-lg-offset-3">
+				<input type="file" class="form-control" id="file-value">
+				</fieldset>
+				<button class="btn btn-success" id="upload-btn">上传</button>
+			</div>
+			<div class="row">
+				<table id="test-table"></table>
+			</div>
+		</div>
+	</body>
+	<script>
+		$("#test-table").bootstrapTable(testFunc());
+ 
+		function testFunc(value) {
+			var test = {
+				toolbar: '#btn-action', //工具按钮用哪个容器
+				striped: true, //设置为 true 会有隔行变色效果
+				pagination: true, //设置为 true 会在表格底部显示分页条
+				paginationLoop: false, //设置为 true 启用分页条无限循环的功能。无效果
+				pageSize: 5, //如果设置了分页，页面数据条数
+				cache: true,
+				search: true, //是否启用搜索框
+				//			showToggle:true, //是否显示 切换试图（table/card）按钮
+				showPaginationSwitch: false, //是否显示 数据条数选择框。无效果
+				//			checkboxHeader:true, //设置false 将在列头隐藏check-all checkbox .
+				uniqueId: "id",
+				//			searchText:"搜索", //初始化搜索文字
+				selectItemName: "id",
+				//			showHeader:true, //是否显示列头
+				//			showFooter:false,//是否显示列脚
+				showRefresh: true, //是否显示 刷新按钮
+				showColumns: true, //是否显示 内容列下拉框
+				//			sortable: true,      //是否启用排序
+				sortOrder: "asc", //排序方式
+				sortName: "id", //需要排序的字段
+ 
+				//			clickToSelect:false,//设置true 将在点击行时，自动选择rediobox 和 checkbox
+				columns: [{
+						field: 'id',
+						title: 'ID',
+						sortable: true,
+						formatter: function(val, row, index) {
+							return index + 1;
+						}
+					}, {
+						field: 'name',
+						title: '卡牌',
+					},
+					{
+						field: 'ex',
+						title: '费用'
+					},
+					{
+						field: 'va',
+						title: '稀有度'
+					},
+					{
+						field: 'ki',
+						title: '种类'
+					},					{
+						field: 'ot',
+						title: '第一层'
+					},					{
+						field: 'og',
+						title: '1'
+					},					{
+						field: 'tg',
+						title: '2'
+					},
+					{
+						field: 'trg',
+						title: '3'
+					},
+					{
+						field: 'tt',
+						title: '第二层'
+					},					{
+						field: 'tog',
+						title: '1'
+					},					{
+						field: 'ttg',
+						title: '2'
+					},
+					{
+						field: 'ttrg',
+						title: '3'
+					},
+				],
+			}
+			return test;
+		};
+		$("#upload-btn").click(function() {
+			var data = [];
+			var files = document.getElementById("file-value").files;
+			var regp = new RegExp(".*,\".*,.*\"$");
+			if(files.length) {
+				var file = files[0];
+				var f = new File(['text1'], 'statics/mastery_zh_cn.csv', {type: 'text/plain'})
+ 
+				var reader = new FileReader(); //new一个FileReader实例
+				if(typeof FileReader == 'undefined') {
+					layer.alert("你的浏览器暂不支持该功能", {title: "提示", skin: "layui-layer-molv"});
+					file.setAttribute("disabled", "disabled");
+					return;
+				}
+				reader.readAsText(file);
+				reader.onload = function(f) {
+					//					var result = document.getElementById("result");
+					//显示文件  
+					var relArr = this.result.split("\r\n");
+					if(!$.isEmptyObject(relArr) && relArr.length > 1) {
+						for(var key = 1, len = relArr.length; key < len; key++) {
+							var values = relArr[key];
+							if(regp.test(values)) {
+								alert("文件内容中有英文逗号，麻烦修改后再上传，含有英文逗号的内容是：" + values);
+								return;
+							}
+							if(!$.isEmptyObject(values)) {
+								var obj = {};
+								var objArr = values.split(",");
+								obj["name"] = objArr[0];
+								obj["ex"] = objArr[1];
+								obj["va"] = objArr[2];
+								obj["ki"] = objArr[3];
+								obj["ot"] = objArr[4];
+								obj["og"] = objArr[5];
+								obj["tg"] = objArr[6];
+								obj["trg"] = objArr[7];
+								obj["tt"] = objArr[8];
+								obj["tog"] = objArr[9];
+								obj["ttg"] = objArr[10];
+								obj["ttrg"] = objArr[11];
+								data.push(obj);
+							}
+						}
+ 
+					}
+					console.log(data);
+					$("#test-table").bootstrapTable("load", data);
+				}
+			}
+		})
+	</script>
+ 
+</html>
