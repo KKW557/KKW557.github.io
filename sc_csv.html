@@ -11,18 +11,18 @@
 	<body align=center style="background-color: aliceblue;">
 		<a href="index.html">返回主页</a>
 		<p style="background-color: rgb(227, 242, 255);">本页面仅支持解码SC的CSV格式到LZMA或编码LZMA到SC的CSV格式，按钮点了没反应请刷新页面</p>
-		<hr width=full color=#987cb6 size=1>
+        <hr width=full color=black size=1>
 		<div style="background-color: rgb(125, 194, 255);">
 		    <div>
-		    	<input type="file" id="csv" accept=".csv"/>
+		    	<input type="file" id="csv" accept=".csv" multiple/>
 		    	<input type="button" value="Decode" onclick="decode()">
 		    </div>
 		    <div>
-		    	<input type="file" id="lzma" accept=“.lzma”/>
+		    	<input type="file" id="lzma" accept=“.lzma” multiple/>
 		    	<input type="button" value="Encode" onclick="encode()">
 		    </div>
 	    </div>
-		<hr width=full color=#987cb6 size=1>
+        <hr width=full color=black size=1>
         <script type='text/javascript' src='statics/js/sc_csv.js'></script>
 	</body>
 
